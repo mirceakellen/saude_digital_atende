@@ -132,7 +132,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
 /* ══ EXEC SUMMARY ══ */
 .exec-card{background:linear-gradient(135deg,#0d1b2a 0%,#1a3a6b 100%);border-radius:var(--rl);padding:18px 20px;margin-bottom:13px}
 .exec-eyebrow{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6a8dad;margin-bottom:11px}
-.exec-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.exec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .exec-stat{text-align:center;padding:11px 6px;background:rgba(255,255,255,.07);border-radius:9px;border:1px solid rgba(255,255,255,.09)}
 .exec-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:300;line-height:1;margin-bottom:4px}
 .ev-red{color:#ef9a9a}.ev-amber{color:#ffcc80}.ev-green{color:#a5d6a7}.ev-blue{color:#90caf9}.ev-teal{color:#80cbc4}
@@ -406,10 +406,10 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
           <div class="estrutura-bar-wrap">
             <div class="estrutura-bar-fill" style="width:77.4%"></div>
           </div>
-          <div class="estrutura-equipes">
+          <div class="estrutura-equipes" style="grid-template-columns:repeat(5,1fr)">
             <div class="estrutura-equipe">
               <div class="estrutura-equipe-val" style="color:#ffcc80">71,2%</div>
-              <div class="estrutura-equipe-lbl">Atend. Remoto Sistemas</div>
+              <div class="estrutura-equipe-lbl">Atend. Remoto</div>
             </div>
             <div class="estrutura-equipe">
               <div class="estrutura-equipe-val" style="color:#ef9a9a">0,0%</div>
@@ -417,7 +417,15 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
             </div>
             <div class="estrutura-equipe">
               <div class="estrutura-equipe-val" style="color:#a5d6a7">96,9%</div>
-              <div class="estrutura-equipe-lbl">Atend. Campo Acomp.</div>
+              <div class="estrutura-equipe-lbl">Campo Acomp.</div>
+            </div>
+            <div class="estrutura-equipe">
+              <div class="estrutura-equipe-val" style="color:#a5d6a7">92,0%</div>
+              <div class="estrutura-equipe-lbl">Campo Trein.</div>
+            </div>
+            <div class="estrutura-equipe">
+              <div class="estrutura-equipe-val" style="color:#a5d6a7">100%</div>
+              <div class="estrutura-equipe-lbl">Campo Implant.</div>
             </div>
           </div>
           <div class="estrutura-trend">
@@ -433,12 +441,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
       <div class="exec-card">
         <div class="exec-eyebrow">Resumo executivo — jan–mar 2026</div>
         <div class="exec-grid">
-          <div class="exec-stat"><div class="exec-val ev-blue">1.536</div><div class="exec-label">chamados TI</div></div>
-          <div class="exec-stat"><div class="exec-val ev-red">33,8%</div><div class="exec-label">fora do SLA</div></div>
-          <div class="exec-stat"><div class="exec-val ev-amber">237</div><div class="exec-label">em aberto</div></div>
-          <div class="exec-stat" style="border:1px solid rgba(239,154,154,.3)"><div class="exec-val ev-red">200</div><div class="exec-label">abertos infra</div></div>
-          <div class="exec-stat" style="border:1px solid rgba(165,214,167,.3)"><div class="exec-val ev-green">37</div><div class="exec-label">abertos sistemas</div></div>
-          <div class="exec-stat"><div class="exec-val ev-green">84,2%</div><div class="exec-label">taxa de resolução</div></div>
+          <div class="exec-stat"><div class="exec-val ev-blue">1.536</div><div class="exec-label">total de chamados</div></div>
+          <div class="exec-stat"><div class="exec-val ev-green">1.293</div><div class="exec-label">encerrados · 84,2%</div></div>
+          <div class="exec-stat"><div class="exec-val ev-amber">237</div><div class="exec-label">em aberto · 15,4%</div></div>
           <div class="exec-stat"><div class="exec-val ev-teal">90,5%</div><div class="exec-label">CSAT atendimento</div></div>
         </div>
         <div class="exec-note"><strong>Destaque positivo:</strong> Canal #saudedigitalatende registrou 90,5% de aprovação nas 21 pesquisas de 2026 — <strong>81% avaliaram como Excelente</strong>. Contraste crítico: Infraestrutura em colapso (51,8% SLA) contra Sistemas com 77,4%. Meta institucional de 85% SLA não atingida em nenhum grupo de Infraestrutura. DS3 é o melhor distrito (76,1%).</div>
@@ -446,16 +451,8 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
 
       <div class="section-hd"><div class="section-title">Indicadores principais</div></div>
 
-      <!-- LINHA 1: Volume | SLA (5 itens) | Backlog | Qualidade -->
-      <div style="display:grid;grid-template-columns:1fr 5fr 1fr 1fr;gap:12px;margin-bottom:10px;align-items:start">
-
-        <!-- Volume -->
-        <div class="kpi-cat">
-          <div class="kpi-cat-label blue">📦 Volume</div>
-          <div>
-            <div class="kpi info"><div class="kpi-label">TOTAL DE CHAMADOS</div><div class="kpi-value info">1.536</div><div class="kpi-meta"><span class="kpi-delta pos">+25% mar vs jan</span><span class="kpi-goal">meta —</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:100%;background:var(--azul)"></div></div></div>
-          </div>
-        </div>
+      <!-- LINHA 1: SLA | Backlog por estrutura | Qualidade -->
+      <div style="display:grid;grid-template-columns:5fr 3fr 2fr;gap:12px;margin-bottom:10px;align-items:start">
 
         <!-- SLA -->
         <div class="kpi-cat">
@@ -469,32 +466,27 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
           </div>
         </div>
 
-        <!-- Backlog -->
+        <!-- Chamados por estrutura -->
         <div class="kpi-cat">
-          <div class="kpi-cat-label" style="background:var(--amber-bg);color:var(--amber)">📋 Backlog</div>
-          <div style="display:grid;grid-template-columns:1fr;gap:8px">
-            <div class="kpi warn"><div class="kpi-label">EM ABERTO</div><div class="kpi-value warn">237</div><div class="kpi-meta"><span class="kpi-delta neg">15,4% do total</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:55%;background:#f57c00"></div></div></div>
+          <div class="kpi-cat-label blue">🏗 Por estrutura</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="kpi info"><div class="kpi-label">ENCERRADOS INFRA</div><div class="kpi-value info" style="font-size:18px">472</div><div class="kpi-meta"><span class="kpi-delta muted">70,2% de 672</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:70%;background:var(--azul)"></div></div></div>
+            <div class="kpi crit"><div class="kpi-label">ABERTOS INFRA</div><div class="kpi-value crit" style="font-size:18px">200</div><div class="kpi-meta"><span class="kpi-delta neg">29,8% de 672</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:30%;background:var(--red)"></div></div></div>
+            <div class="kpi ok"><div class="kpi-label">ENCERRADOS SIST.</div><div class="kpi-value ok" style="font-size:18px">821</div><div class="kpi-meta"><span class="kpi-delta pos">95% de 864</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:95%;background:var(--verde)"></div></div></div>
+            <div class="kpi ok"><div class="kpi-label">ABERTOS SIST.</div><div class="kpi-value ok" style="font-size:18px">37</div><div class="kpi-meta"><span class="kpi-delta pos">4,3% de 864</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:5%;background:var(--verde)"></div></div></div>
           </div>
         </div>
 
-        <!-- Qualidade -->
+        <!-- Qualidade + Distritos -->
         <div class="kpi-cat">
-          <div class="kpi-cat-label green">✅ Qualidade</div>
+          <div class="kpi-cat-label green">✅ Qualidade & Distritos</div>
           <div style="display:grid;grid-template-columns:1fr;gap:8px">
             <div class="kpi ok"><div class="kpi-label">TAXA DE RESOLUÇÃO</div><div class="kpi-value ok">84,2%</div><div class="kpi-meta"><span class="kpi-delta pos">1.293 encerrados</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:84%;background:var(--verde)"></div></div></div>
-            <div class="kpi teal"><div class="kpi-label">CSAT — SATISFAÇÃO</div><div class="kpi-value teal">90,5%</div><div class="kpi-meta"><span class="kpi-delta pos">Excelente+Bom</span><span class="kpi-goal">21 resp.</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:90%;background:#00897b"></div></div></div>
+            <div class="kpi warn"><div class="kpi-label">PIOR DISTRITO SLA</div><div class="kpi-value warn">55,7%</div><div class="kpi-meta"><span class="kpi-delta neg">DS6 (44,3% fora)</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:56%;background:#f57c00"></div></div></div>
+            <div class="kpi ok"><div class="kpi-label">MELHOR DISTRITO</div><div class="kpi-value ok">76,1%</div><div class="kpi-meta"><span class="kpi-delta pos">DS3 (23,9% fora)</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:76%;background:var(--verde)"></div></div></div>
           </div>
         </div>
 
-      </div>
-
-      <!-- LINHA 2: Distritos -->
-      <div style="margin-bottom:4px">
-        <div class="kpi-cat-label" style="background:var(--azul-claro);color:var(--azul);margin-bottom:7px">🗺 Distritos</div>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
-          <div class="kpi warn"><div class="kpi-label">PIOR DISTRITO SLA</div><div class="kpi-value warn">55,7%</div><div class="kpi-meta"><span class="kpi-delta neg">DS6 (44,3% fora)</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:56%;background:#f57c00"></div></div></div>
-          <div class="kpi ok"><div class="kpi-label">MELHOR DISTRITO</div><div class="kpi-value ok">76,1%</div><div class="kpi-meta"><span class="kpi-delta pos">DS3 (23,9% fora)</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:76%;background:var(--verde)"></div></div></div>
-        </div>
       </div>
 
       <div class="section-hd"><div class="section-title">Tendência & Distribuição</div></div>
@@ -571,7 +563,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
             <div class="csat-sub">Excelente + Bom · Canal Slack · jan–mar 2026</div>
             <div class="csat-badges">
               <span class="csat-b">21 respostas 2026</span>
-              <span class="csat-b">707 total histórico</span>
+              <span class="csat-b">707 respostas · ago/2024–mar/2026</span>
               <span class="csat-b">81% Excelente</span>
             </div>
           </div>
@@ -582,11 +574,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
               <div class="csat-item"><div class="csat-item-val" style="color:#ffcc80">1</div><div class="csat-item-lbl">Razoável</div></div>
               <div class="csat-item"><div class="csat-item-val" style="color:#ef9a9a">1</div><div class="csat-item-lbl">Ruim</div></div>
             </div>
-            <div class="csat-resolve">
-              <div class="csat-res-item"><div class="csat-res-val">1ª vez</div><div class="csat-res-lbl">Resolvido</div></div>
-              <div class="csat-res-item"><div class="csat-res-val">Sim</div><div class="csat-res-lbl">Proatividade</div></div>
-              <div class="csat-res-item"><div class="csat-res-val">95%</div><div class="csat-res-lbl">Recomendaria</div></div>
-            </div>
+
           </div>
         </div>
       </div>
@@ -968,8 +956,8 @@ new Chart(document.getElementById('backlogGrupo'), {
 new Chart(document.getElementById('sistemasCsat'), {
   type:'doughnut',
   data:{
-    labels:['SEI','CADSUS WEB','E-Sus Território','Recife Monitora','Outro','Horas Saúde Dig.'],
-    datasets:[{ data:[10,7,1,1,1,1], backgroundColor:[AZ,VD,'#00897b',VL,'#90a4ae',AZ2], borderWidth:2, borderColor:'#fff' }]
+    labels:['SEI','CADSUS WEB','E-Sus Território','Recife Monitora','Horas Saúde Dig.'],
+    datasets:[{ data:[11,7,1,1,1], backgroundColor:[AZ,VD,'#00897b',VL,AZ2], borderWidth:2, borderColor:'#fff' }]
   },
   options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{ display:true, position:'bottom', labels:{ color:'#3d5166', font:{size:10}, boxWidth:10, padding:8 } }, tooltip:TT } }
 });
