@@ -704,27 +704,39 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
           <div class="card-sub">Chamados jan–mar 2026</div>
           <div style="position:relative;height:280px"><canvas id="servicosChart2"></canvas></div>
         </div>
+
+      </div>
+
+      <!-- Solicitações por serviço -->
+      <div class="section-hd"><div class="section-title">Tipo de solicitação por serviço <span class="badge-new">DETALHE</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px">
         <div class="card">
-          <div class="card-title">Análise de reincidência</div>
-          <div class="card-sub">Padrões identificados no período</div>
-          <div class="insight red">
-            <div class="insight-icon">🔴</div>
-            <div class="insight-text"><strong>SEI — 432 chamados (28,1% do total)</strong>Maior reincidência do trimestre. Muitos são solucionáveis com capacitação. Implementar treinamento estruturado reduz volume estimado em 30-40%.</div>
-          </div>
-          <div class="insight red">
-            <div class="insight-icon">🔴</div>
-            <div class="insight-text"><strong>Internet Fibra — 303 chamados (19,7%)</strong>Alta reincidência indica problema estrutural de infraestrutura de rede. Não é incidente pontual — requer revisão contratual com operadora.</div>
-          </div>
-          <div class="insight amber">
-            <div class="insight-icon">🟡</div>
-            <div class="insight-text"><strong>Desktop — 172 chamados (11,2%)</strong>Equipamentos com alta taxa de falha. Análise de série por unidade pode revelar concentração em patrimônios específicos com necessidade de substituição.</div>
-          </div>
-          <div class="insight amber">
-            <div class="insight-icon">🟡</div>
-            <div class="insight-text"><strong>Painel PEC E-SUS — 165 chamados (10,7%)</strong>Novo sistema com alta demanda de suporte. Capacitação direcionada pode reduzir chamados reativos.</div>
-          </div>
+          <div class="card-title">SEI — 432 chamados</div>
+          <div class="card-sub">Top solicitações · 28,1% do total</div>
+          <div style="position:relative;height:180px"><canvas id="solSEI"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Internet (Fibra) — 303 chamados</div>
+          <div class="card-sub">Top solicitações · 19,7% do total</div>
+          <div style="position:relative;height:180px"><canvas id="solFibra"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Desktop — 172 chamados</div>
+          <div class="card-sub">Top solicitações · 11,2% do total</div>
+          <div style="position:relative;height:160px"><canvas id="solDesktop"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Painel PEC E-SUS — 165 chamados</div>
+          <div class="card-sub">Top solicitações · 10,7% do total</div>
+          <div style="position:relative;height:160px"><canvas id="solPEC"></canvas></div>
+        </div>
+        <div class="card" style="grid-column:1/-1">
+          <div class="card-title">CADSUS WEB / SGOP — 133 chamados</div>
+          <div class="card-sub">Top solicitações · 8,7% do total</div>
+          <div style="position:relative;height:160px"><canvas id="solCADSUS"></canvas></div>
         </div>
       </div>
+
     </div>
 
     <!-- ═══════════════════════════ TAB: DISTRITOS ═══════════════════════════ -->
@@ -1019,6 +1031,57 @@ new Chart(document.getElementById('distritoChart'), {
     ]
   },
   options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:true, position:'top', labels:{ color:'#3d5166', font:{size:10}, boxWidth:10, padding:10 } }, tooltip:TT }, scales:{ x:{ stacked:true, ticks:{ color:'#8fa3b8', font:{size:10}, autoSkip:false }, grid:{ display:false } }, y:{ stacked:true, ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G } } }
+});
+
+// ══ Solicitações por serviço ══
+// SEI
+new Chart(document.getElementById('solSEI'), {
+  type:'bar',
+  data:{
+    labels:['Alt. Dados Cadastrais','Cadastro de Usuário','Alt. Alocação/Setores','Recuperação de Senha','Dúvida/Orientação'],
+    datasets:[{ data:[87,87,82,62,39], backgroundColor:['#1565c0','#1e88e5','#42a5f5','#64b5f6','#90caf9'], borderRadius:4 }]
+  },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
+});
+
+// Internet Fibra
+new Chart(document.getElementById('solFibra'), {
+  type:'bar',
+  data:{
+    labels:['Indisponibilidade','Instabilidade','Lentidão','Outros','Remoção de Link'],
+    datasets:[{ data:[273,20,5,3,2], backgroundColor:['#c62828','#e53935','#ef5350','#ef9a9a','#ffcdd2'], borderRadius:4 }]
+  },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
+});
+
+// Desktop
+new Chart(document.getElementById('solDesktop'), {
+  type:'bar',
+  data:{
+    labels:['Manutenção Corretiva','Instalação Física','Manutenção Preventiva','Outros'],
+    datasets:[{ data:[128,32,7,5], backgroundColor:['#e65100','#f57c00','#ffa726','#ffcc80'], borderRadius:4 }]
+  },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
+});
+
+// PEC E-SUS
+new Chart(document.getElementById('solPEC'), {
+  type:'bar',
+  data:{
+    labels:['Implantação','Dúvida/Orientação','Correção de Erros','Outros','Treinamento'],
+    datasets:[{ data:[146,4,4,3,3], backgroundColor:['#2e7d32','#388e3c','#43a047','#66bb6a','#a5d6a7'], borderRadius:4 }]
+  },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
+});
+
+// CADSUS WEB / SGOP
+new Chart(document.getElementById('solCADSUS'), {
+  type:'bar',
+  data:{
+    labels:['Manutenção do Usuário','Instalação Módulo Segurança','Cadastro/Liberação de Máquina','Dúvida/Orientação','Correção de Erros'],
+    datasets:[{ data:[80,19,16,15,2], backgroundColor:['#00695c','#00796b','#00897b','#26a69a','#80cbc4'], borderRadius:4 }]
+  },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
 });
 </script>
 </body>
