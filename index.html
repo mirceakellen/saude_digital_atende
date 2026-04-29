@@ -1048,8 +1048,8 @@ new Chart(document.getElementById('solSEI'), {
 new Chart(document.getElementById('solFibra'), {
   type:'bar',
   data:{
-    labels:['Indisponibilidade','Instabilidade','Lentidão','Outros','Remoção de Link'],
-    datasets:[{ data:[273,20,5,3,2], backgroundColor:['#c62828','#e53935','#ef5350','#ef9a9a','#ffcdd2'], borderRadius:4 }]
+    labels:['Indisponibilidade','Instabilidade','Lentidão','Remoção de Link'],
+    datasets:[{ data:[276,20,5,2], backgroundColor:['#c62828','#e53935','#ef5350','#ffcdd2'], borderRadius:4 }]
   },
   options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
 });
@@ -1058,8 +1058,8 @@ new Chart(document.getElementById('solFibra'), {
 new Chart(document.getElementById('solDesktop'), {
   type:'bar',
   data:{
-    labels:['Manutenção Corretiva','Instalação Física','Manutenção Preventiva','Outros'],
-    datasets:[{ data:[128,32,7,5], backgroundColor:['#e65100','#f57c00','#ffa726','#ffcc80'], borderRadius:4 }]
+    labels:['Manutenção Corretiva','Instalação Física','Manutenção Preventiva'],
+    datasets:[{ data:[133,32,7], backgroundColor:['#e65100','#f57c00','#ffa726'], borderRadius:4 }]
   },
   options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
 });
@@ -1068,8 +1068,8 @@ new Chart(document.getElementById('solDesktop'), {
 new Chart(document.getElementById('solPEC'), {
   type:'bar',
   data:{
-    labels:['Implantação','Dúvida/Orientação','Correção de Erros','Outros','Treinamento'],
-    datasets:[{ data:[146,4,4,3,3], backgroundColor:['#2e7d32','#388e3c','#43a047','#66bb6a','#a5d6a7'], borderRadius:4 }]
+    labels:['Implantação','Dúvida/Orientação','Correção de Erros','Treinamento'],
+    datasets:[{ data:[149,4,4,3], backgroundColor:['#2e7d32','#388e3c','#43a047','#a5d6a7'], borderRadius:4 }]
   },
   options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
 });
