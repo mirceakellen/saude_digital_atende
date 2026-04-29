@@ -99,7 +99,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
 .estrutura-bar-wrap{height:4px;background:rgba(255,255,255,.1);border-radius:3px;margin-bottom:12px;overflow:hidden}
 .estrutura-bar-fill{height:4px;border-radius:3px}
 .estrutura-card.infra .estrutura-bar-fill{background:linear-gradient(90deg,#ef9a9a,#e57373)}
-.estrutura-card.sistemas .estrutura-bar-fill{background:linear-gradient(90deg,#81c784,#66bb6a)}
+.estrutura-card.sistemas .estrutura-bar-fill{background:linear-gradient(90deg,#f57c00,#ffa726)}
 .estrutura-equipes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .estrutura-card.sistemas .estrutura-equipes{grid-template-columns:repeat(3,1fr)}
 .estrutura-equipe{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:6px 8px;text-align:center}
@@ -260,6 +260,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
 .star-pct{font-size:10px;font-family:'JetBrains Mono',monospace;width:38px;text-align:right;color:var(--text)}
 .star-count{font-size:9px;color:var(--text3);width:34px;text-align:right}
 
+.mes-btn{font-size:11px;font-weight:600;padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:var(--white);color:var(--text2);cursor:pointer;transition:all .15s}
+.mes-btn:hover{background:var(--surface);color:var(--text)}
+.mes-btn.active{background:var(--azul);color:#fff;border-color:var(--azul)}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#c5d5e8;border-radius:3px}
 </style>
 </head>
@@ -291,9 +294,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
           <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12M2 8h8M2 12h5"/></svg>
           Backlog & Risco<span class="nav-count">237</span>
         </div>
-        <div class="nav-item" onclick="gotoTab('reincidencia',this)">
+        <div class="nav-item" onclick="gotoTab('concentracao',this)">
           <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13.5 2.5A6 6 0 1 1 2.5 8"/><path d="M2 4l.5-1.5L4 3"/></svg>
-          Reincidência<span class="nav-count">15</span>
+          Concentração de Demanda<span class="nav-count">15</span>
         </div>
         <div class="nav-item" onclick="gotoTab('distritos',this)">
           <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2C5.2 2 3 4.2 3 7c0 4.5 5 8 5 8s5-3.5 5-8c0-2.8-2.2-5-5-5z"/><circle cx="8" cy="7" r="1.5"/></svg>
@@ -346,11 +349,60 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
     <!-- ═══════════════════════════ TAB: VISÃO GERAL ═══════════════════════════ -->
     <div class="tab-content active" id="tab-visao">
 
-      <!-- ══ BLOCO INFRA vs SISTEMAS ══ -->
-      <div class="estrutura-grid">
+      <!-- SELETOR DE MÊS -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+        <span style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Filtrar por mês:</span>
+        <div style="display:flex;gap:6px">
+          <button onclick="filtrarMes('todos')" id="btn-todos" class="mes-btn active">Jan–Mar 2026</button>
+          <button onclick="filtrarMes('jan')" id="btn-jan" class="mes-btn">Janeiro</button>
+          <button onclick="filtrarMes('fev')" id="btn-fev" class="mes-btn">Fevereiro</button>
+          <button onclick="filtrarMes('mar')" id="btn-mar" class="mes-btn">Março</button>
+        </div>
+        <span id="mes-label" style="font-size:10px;color:var(--text3);font-style:italic">Exibindo: Jan–Mar 2026 (todos os meses)</span>
+      </div>
+
+      <!-- GRID 4 QUADRANTES -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;padding:0 8px;align-items:stretch">
+
+        <!-- RESUMO EXECUTIVO — linha completa 2 colunas -->
+        <div class="exec-card" style="margin-bottom:0;border-radius:var(--rl);grid-column:1/-1">
+          <div class="exec-eyebrow">Resumo executivo — jan–mar 2026</div>
+          <div class="exec-grid" style="grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+            <div class="exec-stat"><div class="exec-val ev-blue">1.536</div><div class="exec-label">total de chamados</div></div>
+            <div class="exec-stat"><div class="exec-val ev-green">1.293</div><div class="exec-label">encerrados · 84,2%</div></div>
+            <div class="exec-stat"><div class="exec-val ev-amber">237</div><div class="exec-label">em aberto · 15,4%</div></div>
+            <div class="exec-stat"><div class="exec-val ev-teal">90,5%</div><div class="exec-label">CSAT atendimento</div></div>
+          </div>
+          <div class="exec-note"><strong>Destaque positivo:</strong> Canal #saudedigitalatende registrou 90,5% de aprovação nas 21 pesquisas de 2026 — <strong>81% avaliaram como Excelente</strong>. Contraste crítico: Infraestrutura em colapso (51,8% SLA) contra Sistemas com 77,4%. Meta institucional de 85% SLA não atingida em nenhum grupo. DS3 é o melhor distrito (76,1%).</div>
+        </div>
+
+        <!-- WRAPPER SLA: header + infra + sistemas -->
+        <div style="grid-column:1/-1;background:var(--white);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden">
+
+          <!-- SLA GLOBAL HEADER -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:linear-gradient(90deg,#0d1b2a,#1a3a6b);border-bottom:1px solid rgba(255,255,255,.1)">
+            <div style="display:flex;align-items:center;gap:16px">
+              <span style="font-size:10px;font-weight:700;color:#6a8dad;text-transform:uppercase;letter-spacing:.1em">SLA Global</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:300;color:#ef9a9a">66,2%</span>
+              <span style="font-size:10px;color:#ef9a9a">↓ queda contínua jan→mar</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px">
+              <span style="font-size:10px;color:#6a8dad">Meta: <strong style="color:#a5d6a7">85%</strong></span>
+              <span style="font-size:10px;color:#6a8dad">1.017 no prazo · 519 fora</span>
+              <span style="width:1px;height:16px;background:rgba(255,255,255,.1);display:inline-block"></span>
+              <span style="display:flex;align-items:center;gap:10px">
+                <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:#6a8dad"><span style="width:8px;height:8px;border-radius:2px;background:#c62828;display:inline-block"></span>Crítico &lt;60%</span>
+                <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:#6a8dad"><span style="width:8px;height:8px;border-radius:2px;background:#f57c00;display:inline-block"></span>Atenção 60–84%</span>
+                <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:#6a8dad"><span style="width:8px;height:8px;border-radius:2px;background:#2e7d32;display:inline-block"></span>OK ≥85%</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- CARDS INFRA + SISTEMAS -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px;background:var(--bg)">
 
         <!-- INFRAESTRUTURA -->
-        <div class="estrutura-card infra">
+        <div class="estrutura-card infra" style="height:100%;box-sizing:border-box;border-radius:10px">
           <div class="estrutura-eyebrow">
             <svg class="estrutura-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="5" rx="1"/><rect x="2" y="10" width="20" height="5" rx="1"/><rect x="2" y="17" width="20" height="5" rx="1"/><circle cx="6" cy="5.5" r="1" fill="currentColor"/><circle cx="6" cy="12.5" r="1" fill="currentColor"/><circle cx="6" cy="19.5" r="1" fill="currentColor"/></svg>
             Infraestrutura
@@ -372,7 +424,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
             </div>
             <div class="estrutura-equipe">
               <div class="estrutura-equipe-val" style="color:#ef9a9a">50,0%</div>
-              <div class="estrutura-equipe-lbl">Gestão de Ativos</div>
+              <div class="estrutura-equipe-lbl">Patrimônio</div>
             </div>
             <div class="estrutura-equipe">
               <div class="estrutura-equipe-val" style="color:#ffcc80">59,3%</div>
@@ -383,6 +435,16 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
               <div class="estrutura-equipe-lbl">Suporte a Dispositivos</div>
             </div>
           </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;margin-bottom:8px">
+            <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:7px 10px;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:300;color:#90caf9;line-height:1">472</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px">encerrados · 70,2%</div>
+            </div>
+            <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:7px 10px;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:300;color:#ef9a9a;line-height:1">200</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px">em aberto · 29,8%</div>
+            </div>
+          </div>
           <div class="estrutura-trend">
             <div class="estrutura-trend-item"><div class="trend-dot" style="background:#ef9a9a"></div>Jan 51,3%</div>
             <div class="estrutura-trend-item"><div class="trend-dot" style="background:#ffcc80"></div>Fev 55,0%</div>
@@ -391,7 +453,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
         </div>
 
         <!-- SISTEMAS -->
-        <div class="estrutura-card sistemas">
+        <div class="estrutura-card sistemas" style="height:100%;box-sizing:border-box;border-radius:10px">
           <div class="estrutura-eyebrow">
             <svg class="estrutura-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
             Sistemas
@@ -417,7 +479,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
             </div>
             <div class="estrutura-equipe">
               <div class="estrutura-equipe-val" style="color:#a5d6a7">96,9%</div>
-              <div class="estrutura-equipe-lbl">Campo Acomp.</div>
+              <div class="estrutura-equipe-lbl">Campo Op. Assistida</div>
             </div>
             <div class="estrutura-equipe">
               <div class="estrutura-equipe-val" style="color:#a5d6a7">92,0%</div>
@@ -428,68 +490,126 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
               <div class="estrutura-equipe-lbl">Campo Implant.</div>
             </div>
           </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;margin-bottom:8px">
+            <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:7px 10px;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:300;color:#a5d6a7;line-height:1">821</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px">encerrados · 95,0%</div>
+            </div>
+            <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:7px 10px;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:300;color:#ffcc80;line-height:1">37</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px">em aberto · 4,3%</div>
+            </div>
+          </div>
           <div class="estrutura-trend">
             <div class="estrutura-trend-item"><div class="trend-dot" style="background:#a5d6a7"></div>Jan 74,2%</div>
             <div class="estrutura-trend-item"><div class="trend-dot" style="background:#ffcc80"></div>Fev 71,6%</div>
             <div class="estrutura-trend-item"><div class="trend-dot" style="background:#ffcc80"></div>Mar 67,2%</div>
           </div>
+        </div><!-- end sistemas -->
+
+          </div><!-- end grid infra+sistemas -->
+        </div><!-- end wrapper SLA -->
+
+      </div><!-- /grid 4 quadrantes -->
+
+      <!-- CARD QUALIDADE & DISTRITOS — modelo sistemas -->
+      <div style="background:linear-gradient(135deg,#0d1b2a 0%,#1a3352 100%);border-radius:var(--rl);padding:16px 20px;margin-bottom:12px">
+
+        <!-- Eyebrow -->
+        <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;color:#6a9fd8">
+          <svg style="width:20px;height:20px;opacity:.7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+          Qualidade & Distritos
         </div>
 
-      </div><!-- /estrutura-grid -->
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:16px">
 
-      <!-- EXEC SUMMARY -->
-      <div class="exec-card">
-        <div class="exec-eyebrow">Resumo executivo — jan–mar 2026</div>
-        <div class="exec-grid">
-          <div class="exec-stat"><div class="exec-val ev-blue">1.536</div><div class="exec-label">total de chamados</div></div>
-          <div class="exec-stat"><div class="exec-val ev-green">1.293</div><div class="exec-label">encerrados · 84,2%</div></div>
-          <div class="exec-stat"><div class="exec-val ev-amber">237</div><div class="exec-label">em aberto · 15,4%</div></div>
-          <div class="exec-stat"><div class="exec-val ev-teal">90,5%</div><div class="exec-label">CSAT atendimento</div></div>
+          <!-- Coluna esquerda: Taxa de resolução -->
+          <div>
+            <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:10px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:42px;font-weight:300;line-height:1;color:#90caf9">84,2%</div>
+              <div style="padding-bottom:4px">
+                <div style="font-size:11px;color:rgba(255,255,255,.6)">1.293 encerrados de 1.536</div>
+                <div style="font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(144,202,249,.15);color:#90caf9;width:fit-content;margin-top:3px">Taxa de resolução</div>
+              </div>
+            </div>
+            <div style="height:4px;background:rgba(255,255,255,.1);border-radius:3px;margin-bottom:10px;overflow:hidden">
+              <div style="width:84.2%;height:4px;border-radius:3px;background:linear-gradient(90deg,#81c784,#66bb6a)"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+              <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:7px 10px;text-align:center">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:300;color:#90caf9;line-height:1">1.293</div>
+                <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px">encerrados</div>
+              </div>
+              <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:7px 10px;text-align:center">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:300;color:#ffcc80;line-height:1">237</div>
+                <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px">em aberto</div>
+              </div>
+            </div>
+            <div style="padding-top:10px;border-top:1px solid rgba(255,255,255,.07)">
+              <div style="font-size:8px;font-weight:700;color:#6a9fd8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">★ Pesquisa de Satisfação — CSAT #saudedigitalatende</div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:#90caf9"><div style="width:5px;height:5px;border-radius:50%;background:#90caf9"></div>CSAT: 90,5% (Excelente+Bom)</div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:#ffcc80"><div style="width:5px;height:5px;border-radius:50%;background:#ffcc80"></div>81% avaliaram como Excelente</div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:#90caf9"><div style="width:5px;height:5px;border-radius:50%;background:#90caf9"></div>21 respostas jan–mar 2026</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna direita: Distritos -->
+          <div>
+            <div style="font-size:10px;color:#6a9fd8;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">SLA por Distrito Sanitário</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px">
+              <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:8px 6px;text-align:center">
+                <div style="font-size:8px;color:rgba(255,255,255,.5);margin-bottom:3px">DS 1</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#ffcc80;line-height:1">67,3%</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.35);margin-top:2px">440 ch.</div>
+              </div>
+              <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:8px 6px;text-align:center">
+                <div style="font-size:8px;color:rgba(255,255,255,.5);margin-bottom:3px">DS 2</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#ffcc80;line-height:1">61,0%</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.35);margin-top:2px">164 ch.</div>
+              </div>
+              <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,204,128,.3);border-radius:7px;padding:8px 6px;text-align:center">
+                <div style="font-size:8px;color:#ffcc80;margin-bottom:3px">DS 3 ⭐</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#ffcc80;line-height:1">76,1%</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.35);margin-top:2px">180 ch.</div>
+              </div>
+              <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:8px 6px;text-align:center">
+                <div style="font-size:8px;color:rgba(255,255,255,.5);margin-bottom:3px">DS 4</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#ffcc80;line-height:1">57,8%</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.35);margin-top:2px">128 ch.</div>
+              </div>
+              <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:8px 6px;text-align:center">
+                <div style="font-size:8px;color:rgba(255,255,255,.5);margin-bottom:3px">DS 5</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#ffcc80;line-height:1">71,3%</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.35);margin-top:2px">282 ch.</div>
+              </div>
+              <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:8px 6px;text-align:center">
+                <div style="font-size:8px;color:#ef9a9a;margin-bottom:3px">DS 6</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#ef9a9a;line-height:1">55,7%</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.35);margin-top:2px">79 ch.</div>
+              </div>
+              <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:8px 6px;text-align:center">
+                <div style="font-size:8px;color:rgba(255,255,255,.5);margin-bottom:3px">DS 7</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#ffcc80;line-height:1">60,5%</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.35);margin-top:2px">129 ch.</div>
+              </div>
+              <div style="background:rgba(255,255,255,.07);border-radius:7px;padding:8px 6px;text-align:center">
+                <div style="font-size:8px;color:rgba(255,255,255,.5);margin-bottom:3px">DS 8</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#ffcc80;line-height:1">65,0%</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.35);margin-top:2px">100 ch.</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07)">
+              <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:#ffcc80"><div style="width:5px;height:5px;border-radius:50%;background:#ffcc80"></div>DS3 — destaque (76,1%)</div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:#ef9a9a"><div style="width:5px;height:5px;border-radius:50%;background:#ef9a9a"></div>DS6 — atenção (55,7%)</div>
+            </div>
+          </div>
+
         </div>
-        <div class="exec-note"><strong>Destaque positivo:</strong> Canal #saudedigitalatende registrou 90,5% de aprovação nas 21 pesquisas de 2026 — <strong>81% avaliaram como Excelente</strong>. Contraste crítico: Infraestrutura em colapso (51,8% SLA) contra Sistemas com 77,4%. Meta institucional de 85% SLA não atingida em nenhum grupo de Infraestrutura. DS3 é o melhor distrito (76,1%).</div>
       </div>
 
-      <div class="section-hd"><div class="section-title">Indicadores principais</div></div>
-
-      <!-- LINHA 1: SLA | Backlog por estrutura | Qualidade -->
-      <div style="display:grid;grid-template-columns:5fr 3fr 2fr;gap:12px;margin-bottom:10px;align-items:start">
-
-        <!-- SLA -->
-        <div class="kpi-cat">
-          <div class="kpi-cat-label red">⏱ SLA</div>
-          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">
-            <div class="kpi crit"><div class="kpi-label">SLA GLOBAL</div><div class="kpi-value crit">66,2%</div><div class="kpi-meta"><span class="kpi-delta neg">↓ 4,8pp em 3 meses</span><span class="kpi-goal">meta 85%</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:66%;background:var(--red)"></div></div></div>
-            <div class="kpi crit"><div class="kpi-label">SLA INFRAESTRUTURA</div><div class="kpi-value crit">51,8%</div><div class="kpi-meta"><span class="kpi-delta neg">672 chamados</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:52%;background:var(--red)"></div></div></div>
-            <div class="kpi warn"><div class="kpi-label">SLA SISTEMAS</div><div class="kpi-value warn">77,4%</div><div class="kpi-meta"><span class="kpi-delta neg">↓ tendência queda</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:77%;background:#f57c00"></div></div></div>
-            <div class="kpi crit"><div class="kpi-label">PIOR GRUPO SLA</div><div class="kpi-value crit">32,6%</div><div class="kpi-meta"><span class="kpi-delta neg">Laboratório Técnico</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:33%;background:var(--red)"></div></div></div>
-            <div class="kpi ok"><div class="kpi-label">MELHOR GRUPO SLA</div><div class="kpi-value ok">100%</div><div class="kpi-meta"><span class="kpi-delta pos">Atend. Campo - Implant.</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:100%;background:var(--verde)"></div></div></div>
-          </div>
-        </div>
-
-        <!-- Chamados por estrutura -->
-        <div class="kpi-cat">
-          <div class="kpi-cat-label blue">🏗 Por estrutura</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <div class="kpi info"><div class="kpi-label">ENCERRADOS INFRA</div><div class="kpi-value info" style="font-size:18px">472</div><div class="kpi-meta"><span class="kpi-delta muted">70,2% de 672</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:70%;background:var(--azul)"></div></div></div>
-            <div class="kpi crit"><div class="kpi-label">ABERTOS INFRA</div><div class="kpi-value crit" style="font-size:18px">200</div><div class="kpi-meta"><span class="kpi-delta neg">29,8% de 672</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:30%;background:var(--red)"></div></div></div>
-            <div class="kpi ok"><div class="kpi-label">ENCERRADOS SIST.</div><div class="kpi-value ok" style="font-size:18px">821</div><div class="kpi-meta"><span class="kpi-delta pos">95% de 864</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:95%;background:var(--verde)"></div></div></div>
-            <div class="kpi ok"><div class="kpi-label">ABERTOS SIST.</div><div class="kpi-value ok" style="font-size:18px">37</div><div class="kpi-meta"><span class="kpi-delta pos">4,3% de 864</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:5%;background:var(--verde)"></div></div></div>
-          </div>
-        </div>
-
-        <!-- Qualidade + Distritos -->
-        <div class="kpi-cat">
-          <div class="kpi-cat-label green">✅ Qualidade & Distritos</div>
-          <div style="display:grid;grid-template-columns:1fr;gap:8px">
-            <div class="kpi ok"><div class="kpi-label">TAXA DE RESOLUÇÃO</div><div class="kpi-value ok">84,2%</div><div class="kpi-meta"><span class="kpi-delta pos">1.293 encerrados</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:84%;background:var(--verde)"></div></div></div>
-            <div class="kpi warn"><div class="kpi-label">PIOR DISTRITO SLA</div><div class="kpi-value warn">55,7%</div><div class="kpi-meta"><span class="kpi-delta neg">DS6 (44,3% fora)</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:56%;background:#f57c00"></div></div></div>
-            <div class="kpi ok"><div class="kpi-label">MELHOR DISTRITO</div><div class="kpi-value ok">76,1%</div><div class="kpi-meta"><span class="kpi-delta pos">DS3 (23,9% fora)</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:76%;background:var(--verde)"></div></div></div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="section-hd"><div class="section-title">Tendência & Distribuição</div></div>
+            <div class="section-hd"><div class="section-title">Tendência & Distribuição</div></div>
       <div class="grid-2" style="margin-bottom:11px">
         <div class="card">
           <div class="card-title">Tendência do SLA — queda mês a mês <span class="badge-hot">CRÍTICO</span></div>
@@ -521,16 +641,16 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
             <div style="flex:1">
               <div class="mm"><span class="mm-label">✅ Fechado</span><span class="mm-val" style="color:var(--verde)">1.065</span></div>
               <div class="mm"><span class="mm-label">🟢 Solucionado</span><span class="mm-val" style="color:var(--verde)">228</span></div>
-              <div class="mm"><span class="mm-label">🟡 Em atendimento</span><span class="mm-val" style="color:#e65100">127</span></div>
+              <div class="mm"><span class="mm-label">🟠 Em atendimento</span><span class="mm-val" style="color:#ef6c00">127</span></div>
               <div class="mm"><span class="mm-label">🟠 Pendente</span><span class="mm-val" style="color:#e65100">94</span></div>
               <div class="mm"><span class="mm-label">🔴 Novo</span><span class="mm-val" style="color:var(--red)">16</span></div>
             </div>
           </div>
         </div>
         <div class="card">
-          <div class="card-title">Top serviços demandados</div>
+          <div class="card-title">Top 5 serviços demandados</div>
           <div class="card-sub">Volume de chamados por serviço · jan–mar 2026</div>
-          <div style="position:relative;height:190px"><canvas id="servicosChart"></canvas></div>
+          <div style="position:relative;height:140px"><canvas id="servicosChart"></canvas></div>
         </div>
       </div>
 
@@ -597,6 +717,15 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
 
     <!-- ═══════════════════════════ TAB: SLA & GRUPOS ═══════════════════════════ -->
     <div class="tab-content" id="tab-sla">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <span style="font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Mês:</span>
+        <div style="display:flex;gap:5px">
+          <button onclick="filtrarMes('todos')" id="btn-todos-sla" class="mes-btn active" style="font-size:10px;padding:3px 10px">Jan–Mar</button>
+          <button onclick="filtrarMes('jan')" id="btn-jan-sla" class="mes-btn" style="font-size:10px;padding:3px 10px">Jan</button>
+          <button onclick="filtrarMes('fev')" id="btn-fev-sla" class="mes-btn" style="font-size:10px;padding:3px 10px">Fev</button>
+          <button onclick="filtrarMes('mar')" id="btn-mar-sla" class="mes-btn" style="font-size:10px;padding:3px 10px">Mar</button>
+        </div>
+      </div>
       <div class="section-hd" style="margin-top:0"><div class="section-title">SLA por Grupo Técnico <span class="badge-hot">CRÍTICO</span></div></div>
       <div class="card" style="margin-bottom:11px">
         <div class="card-title">Desempenho detalhado por Grupo Técnico</div>
@@ -606,13 +735,13 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
           <tbody>
             <tr style="background:var(--azul-claro);"><td colspan="8" style="padding:5px 10px;font-size:9px;font-weight:700;color:var(--azul);letter-spacing:.08em;text-transform:uppercase">🔵 Infraestrutura</td></tr>
             <tr><td style="font-weight:600">Laboratório Técnico</td><td><span class="badge b-info">Infra</span></td><td class="mono">218</td><td class="mono" style="color:var(--verde)">71</td><td class="mono" style="color:var(--red)">147</td><td><div class="mono" style="color:var(--red);margin-bottom:3px">32,6%</div><div class="dual-bar"><div class="dual-ok" style="width:33%"></div><div class="dual-bad" style="width:67%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">67% fora</td><td><span class="badge b-crit">crítico</span></td></tr>
-            <tr><td style="font-weight:600">Gestão de Ativos</td><td><span class="badge b-info">Infra</span></td><td class="mono">8</td><td class="mono" style="color:var(--verde)">4</td><td class="mono" style="color:var(--red)">4</td><td><div class="mono" style="color:#e65100;margin-bottom:3px">50,0%</div><div class="dual-bar"><div class="dual-ok" style="width:50%"></div><div class="dual-bad" style="width:50%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">50% fora</td><td><span class="badge b-warn">atenção</span></td></tr>
+            <tr><td style="font-weight:600">Patrimônio</td><td><span class="badge b-info">Infra</span></td><td class="mono">8</td><td class="mono" style="color:var(--verde)">4</td><td class="mono" style="color:var(--red)">4</td><td><div class="mono" style="color:#e65100;margin-bottom:3px">50,0%</div><div class="dual-bar"><div class="dual-ok" style="width:50%"></div><div class="dual-bad" style="width:50%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">50% fora</td><td><span class="badge b-warn">atenção</span></td></tr>
             <tr><td style="font-weight:600">Rede e Conectividade</td><td><span class="badge b-info">Infra</span></td><td class="mono">415</td><td class="mono" style="color:var(--verde)">246</td><td class="mono" style="color:var(--red)">169</td><td><div class="mono" style="color:#e65100;margin-bottom:3px">59,3%</div><div class="dual-bar"><div class="dual-ok" style="width:59%"></div><div class="dual-bad" style="width:41%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">41% fora</td><td><span class="badge b-crit">crítico</span></td></tr>
             <tr><td style="font-weight:600">Suporte a Dispositivos</td><td><span class="badge b-info">Infra</span></td><td class="mono">31</td><td class="mono" style="color:var(--verde)">27</td><td class="mono" style="color:var(--red)">4</td><td><div class="mono" style="color:var(--verde);margin-bottom:3px">87,1%</div><div class="dual-bar"><div class="dual-ok" style="width:87%"></div><div class="dual-bad" style="width:13%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">13% fora</td><td><span class="badge b-ok">ok</span></td></tr>
             <tr style="background:var(--verde-claro);"><td colspan="8" style="padding:5px 10px;font-size:9px;font-weight:700;color:var(--verde);letter-spacing:.08em;text-transform:uppercase">🟢 Sistemas</td></tr>
             <tr><td style="font-weight:600">Atendimento Especialista de Sistemas</td><td><span class="badge b-gray">Sistemas</span></td><td class="mono">4</td><td class="mono" style="color:var(--text3)">0</td><td class="mono" style="color:var(--red)">4</td><td><div class="mono" style="color:var(--red);margin-bottom:3px">0,0%</div><div class="dual-bar"><div class="dual-bad" style="width:100%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">100% fora</td><td><span class="badge b-crit">crítico</span></td></tr>
             <tr><td style="font-weight:600">Atendimento Remoto de Sistemas</td><td><span class="badge b-gray">Sistemas</span></td><td class="mono">653</td><td class="mono" style="color:var(--verde)">465</td><td class="mono" style="color:var(--red)">188</td><td><div class="mono" style="color:#e65100;margin-bottom:3px">71,2%</div><div class="dual-bar"><div class="dual-ok" style="width:71%"></div><div class="dual-bad" style="width:29%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">29% fora</td><td><span class="badge b-warn">atenção</span></td></tr>
-            <tr><td style="font-weight:600">Atend. Campo - Acompanhamento</td><td><span class="badge b-gray">Sistemas</span></td><td class="mono">32</td><td class="mono" style="color:var(--verde)">31</td><td class="mono" style="color:var(--red)">1</td><td><div class="mono" style="color:var(--verde);margin-bottom:3px">96,9%</div><div class="dual-bar"><div class="dual-ok" style="width:97%"></div><div class="dual-bad" style="width:3%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">3% fora</td><td><span class="badge b-ok">ok</span></td></tr>
+            <tr><td style="font-weight:600">Atend. Campo - Operação Assistida</td><td><span class="badge b-gray">Sistemas</span></td><td class="mono">32</td><td class="mono" style="color:var(--verde)">31</td><td class="mono" style="color:var(--red)">1</td><td><div class="mono" style="color:var(--verde);margin-bottom:3px">96,9%</div><div class="dual-bar"><div class="dual-ok" style="width:97%"></div><div class="dual-bad" style="width:3%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">3% fora</td><td><span class="badge b-ok">ok</span></td></tr>
             <tr><td style="font-weight:600">Atend. Campo - Treinamento</td><td><span class="badge b-gray">Sistemas</span></td><td class="mono">25</td><td class="mono" style="color:var(--verde)">23</td><td class="mono" style="color:var(--red)">2</td><td><div class="mono" style="color:var(--verde);margin-bottom:3px">92,0%</div><div class="dual-bar"><div class="dual-ok" style="width:92%"></div><div class="dual-bad" style="width:8%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">8% fora</td><td><span class="badge b-ok">ok</span></td></tr>
             <tr><td style="font-weight:600">Atend. Campo - Implantação</td><td><span class="badge b-gray">Sistemas</span></td><td class="mono">150</td><td class="mono" style="color:var(--verde)">150</td><td class="mono" style="color:var(--text3)">0</td><td><div class="mono" style="color:var(--verde);margin-bottom:3px">100%</div><div class="dual-bar"><div class="dual-ok" style="width:100%"></div></div></td><td class="mono" style="color:var(--text3);font-size:10px">0% fora</td><td><span class="badge b-ok">referência</span></td></tr>
           </tbody>
@@ -651,6 +780,15 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
 
     <!-- ═══════════════════════════ TAB: BACKLOG ═══════════════════════════ -->
     <div class="tab-content" id="tab-backlog">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <span style="font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Mês:</span>
+        <div style="display:flex;gap:5px">
+          <button onclick="filtrarMes('todos')" id="btn-todos-backlog" class="mes-btn active" style="font-size:10px;padding:3px 10px">Jan–Mar</button>
+          <button onclick="filtrarMes('jan')" id="btn-jan-backlog" class="mes-btn" style="font-size:10px;padding:3px 10px">Jan</button>
+          <button onclick="filtrarMes('fev')" id="btn-fev-backlog" class="mes-btn" style="font-size:10px;padding:3px 10px">Fev</button>
+          <button onclick="filtrarMes('mar')" id="btn-mar-backlog" class="mes-btn" style="font-size:10px;padding:3px 10px">Mar</button>
+        </div>
+      </div>
       <div class="section-hd" style="margin-top:0"><div class="section-title">Backlog & Concentração de risco</div></div>
       <div class="kpi-grid">
         <div class="kpi warn"><div class="kpi-label">TOTAL EM ABERTO</div><div class="kpi-value warn">237</div><div class="kpi-meta"><span class="kpi-delta neg">15,4% do total</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:55%;background:#f57c00"></div></div></div>
@@ -668,14 +806,14 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
           <div class="hbar"><div class="hbar-label">Rede e Conectividade</div><div class="hbar-track"><div class="hbar-fill" style="width:100%;background:#1565c0"></div></div><div class="hbar-val" style="color:var(--red)">109</div><div class="hbar-badge"><span class="badge b-crit">crítico</span></div></div>
           <div class="hbar"><div class="hbar-label">Laboratório Técnico</div><div class="hbar-track"><div class="hbar-fill" style="width:80%;background:#1e88e5"></div></div><div class="hbar-val" style="color:var(--red)">87</div><div class="hbar-badge"><span class="badge b-crit">crítico</span></div></div>
           <div class="hbar"><div class="hbar-label">Suporte a Dispositivos</div><div class="hbar-track"><div class="hbar-fill" style="width:2%;background:#42a5f5"></div></div><div class="hbar-val" style="color:var(--text2)">2</div><div class="hbar-badge"><span class="badge b-ok">baixo</span></div></div>
-          <div class="hbar"><div class="hbar-label">Gestão de Ativos</div><div class="hbar-track"><div class="hbar-fill" style="width:2%;background:#90caf9"></div></div><div class="hbar-val" style="color:var(--text2)">2</div><div class="hbar-badge"><span class="badge b-ok">baixo</span></div></div>
+          <div class="hbar"><div class="hbar-label">Patrimônio</div><div class="hbar-track"><div class="hbar-fill" style="width:2%;background:#90caf9"></div></div><div class="hbar-val" style="color:var(--text2)">2</div><div class="hbar-badge"><span class="badge b-ok">baixo</span></div></div>
 
           <div style="font-size:9px;font-weight:700;color:var(--verde);text-transform:uppercase;letter-spacing:.07em;padding:4px 8px;background:var(--verde-claro);border-radius:5px;margin-bottom:7px;margin-top:10px;display:inline-block">🟢 Sistemas</div>
           <div class="hbar"><div class="hbar-label">Atend. Remoto Sistemas</div><div class="hbar-track"><div class="hbar-fill" style="width:29%;background:#2e7d32"></div></div><div class="hbar-val" style="color:#e65100">32</div><div class="hbar-badge"><span class="badge b-warn">atenção</span></div></div>
           <div class="hbar"><div class="hbar-label">Atend. Especialista</div><div class="hbar-track"><div class="hbar-fill" style="width:2%;background:#388e3c"></div></div><div class="hbar-val" style="color:var(--text2)">2</div><div class="hbar-badge"><span class="badge b-ok">baixo</span></div></div>
           <div class="hbar"><div class="hbar-label">Atend. Campo - Trein.</div><div class="hbar-track"><div class="hbar-fill" style="width:1%;background:#66bb6a"></div></div><div class="hbar-val" style="color:var(--text2)">1</div><div class="hbar-badge"><span class="badge b-ok">baixo</span></div></div>
           <div class="hbar"><div class="hbar-label">Atend. Campo - Implant.</div><div class="hbar-track"><div class="hbar-fill" style="width:1%;background:#81c784"></div></div><div class="hbar-val" style="color:var(--text2)">1</div><div class="hbar-badge"><span class="badge b-ok">baixo</span></div></div>
-          <div class="hbar"><div class="hbar-label">Atend. Campo - Acomp.</div><div class="hbar-track"><div class="hbar-fill" style="width:1%;background:#a5d6a7"></div></div><div class="hbar-val" style="color:var(--text2)">1</div><div class="hbar-badge"><span class="badge b-ok">baixo</span></div></div>
+          <div class="hbar"><div class="hbar-label">Atend. Campo - Op. Assistida</div><div class="hbar-track"><div class="hbar-fill" style="width:1%;background:#a5d6a7"></div></div><div class="hbar-val" style="color:var(--text2)">1</div><div class="hbar-badge"><span class="badge b-ok">baixo</span></div></div>
         </div>
         <div class="card">
           <div class="card-title">Distribuição do backlog</div>
@@ -690,8 +828,17 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
     </div>
 
     <!-- ═══════════════════════════ TAB: REINCIDÊNCIA ═══════════════════════════ -->
-    <div class="tab-content" id="tab-reincidencia">
-      <div class="section-hd" style="margin-top:0"><div class="section-title">Reincidência & Serviços de maior volume</div></div>
+    <div class="tab-content" id="tab-concentracao">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <span style="font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Mês:</span>
+        <div style="display:flex;gap:5px">
+          <button onclick="filtrarMes('todos')" id="btn-todos-concentracao" class="mes-btn active" style="font-size:10px;padding:3px 10px">Jan–Mar</button>
+          <button onclick="filtrarMes('jan')" id="btn-jan-concentracao" class="mes-btn" style="font-size:10px;padding:3px 10px">Jan</button>
+          <button onclick="filtrarMes('fev')" id="btn-fev-concentracao" class="mes-btn" style="font-size:10px;padding:3px 10px">Fev</button>
+          <button onclick="filtrarMes('mar')" id="btn-mar-concentracao" class="mes-btn" style="font-size:10px;padding:3px 10px">Mar</button>
+        </div>
+      </div>
+      <div class="section-hd" style="margin-top:0"><div class="section-title">Concentração de Demanda & Serviços de maior volume</div></div>
       <div class="kpi-grid-4">
         <div class="kpi info"><div class="kpi-label">MAIOR DEMANDA</div><div class="kpi-value info">SEI</div><div class="kpi-meta"><span class="kpi-delta muted">432 chamados (28,1%)</span></div></div>
         <div class="kpi warn"><div class="kpi-label">INTERNET FIBRA</div><div class="kpi-value warn">303</div><div class="kpi-meta"><span class="kpi-delta neg">19,7% do total</span></div></div>
@@ -700,9 +847,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
       </div>
       <div class="grid-2">
         <div class="card">
-          <div class="card-title">Top 10 serviços por volume</div>
+          <div class="card-title">Top 5 serviços por volume</div>
           <div class="card-sub">Chamados jan–mar 2026</div>
-          <div style="position:relative;height:280px"><canvas id="servicosChart2"></canvas></div>
+          <div style="position:relative;height:160px"><canvas id="servicosChart2"></canvas></div>
         </div>
 
       </div>
@@ -741,10 +888,19 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
 
     <!-- ═══════════════════════════ TAB: DISTRITOS ═══════════════════════════ -->
     <div class="tab-content" id="tab-distritos">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <span style="font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Mês:</span>
+        <div style="display:flex;gap:5px">
+          <button onclick="filtrarMes('todos')" id="btn-todos-distritos" class="mes-btn active" style="font-size:10px;padding:3px 10px">Jan–Mar</button>
+          <button onclick="filtrarMes('jan')" id="btn-jan-distritos" class="mes-btn" style="font-size:10px;padding:3px 10px">Jan</button>
+          <button onclick="filtrarMes('fev')" id="btn-fev-distritos" class="mes-btn" style="font-size:10px;padding:3px 10px">Fev</button>
+          <button onclick="filtrarMes('mar')" id="btn-mar-distritos" class="mes-btn" style="font-size:10px;padding:3px 10px">Mar</button>
+        </div>
+      </div>
       <div class="section-hd" style="margin-top:0"><div class="section-title">Desempenho por distrito sanitário</div></div>
       <div class="kpi-grid-4">
         <div class="kpi ok"><div class="kpi-label">MELHOR DISTRITO</div><div class="kpi-value ok">76,1%</div><div class="kpi-meta"><span class="kpi-delta pos">DS3 — benchmark</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:76%;background:var(--verde)"></div></div></div>
-        <div class="kpi warn"><div class="kpi-label">PIOR DISTRITO</div><div class="kpi-value warn">55,7%</div><div class="kpi-meta"><span class="kpi-delta neg">DS6 — crítico</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:56%;background:#f57c00"></div></div></div>
+        <div class="kpi warn"><div class="kpi-label">DISTRITO EM ATENÇÃO</div><div class="kpi-value warn">55,7%</div><div class="kpi-meta"><span class="kpi-delta neg">DS6 — crítico</span></div><div class="kpi-bar"><div class="kpi-bar-fill" style="width:56%;background:#f57c00"></div></div></div>
         <div class="kpi info"><div class="kpi-label">MAIOR VOLUME</div><div class="kpi-value info">440</div><div class="kpi-meta"><span class="kpi-delta muted">DS1 · 28,6% do total</span></div></div>
         <div class="kpi info"><div class="kpi-label">MENOR VOLUME</div><div class="kpi-value info">79</div><div class="kpi-meta"><span class="kpi-delta muted">DS6 · 5,1% do total</span></div></div>
       </div>
@@ -803,7 +959,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
         <div class="card-sub">Ações com maior impacto no SLA</div>
         <div class="insight red"><div class="insight-icon">🔴</div><div class="insight-text"><strong>P1 — Laboratório Técnico em colapso (32,6% SLA · 109 em backlog)</strong>Pior grupo do trimestre. Ação imediata: redistribuição de demanda + reforço técnico para zerar backlog crítico antes de maio.</div></div>
         <div class="insight red"><div class="insight-icon">🔴</div><div class="insight-text"><strong>P2 — Rede e Conectividade (59,3% SLA · 87 em backlog)</strong>303 chamados de Internet Fibra indicam falha estrutural. Revisão de SLA contratual com operadora é ação prioritária.</div></div>
-        <div class="insight amber"><div class="insight-icon">🟡</div><div class="insight-text"><strong>P3 — Capacitação SEI para usuários</strong>432 chamados SEI = 28,1% do total. Muitos são reincidências solucionáveis com treinamento — estimativa de redução de 35%.</div></div>
+        <div class="insight amber"><div class="insight-icon">🟡</div><div class="insight-text"><strong>P3 — Capacitação SEI para usuários</strong>432 chamados SEI = 28,1% do total. Muitos são concentração de demandas solucionáveis com treinamento — estimativa de redução de 35%.</div></div>
         <div class="insight green"><div class="insight-icon">🟢</div><div class="insight-text"><strong>P4 — Replicar DS3 como benchmark</strong>76,1% SLA vs 55–67% dos demais. Mapear práticas e processos do DS3 para replicação nos distritos críticos DS4, DS6 e DS7.</div></div>
       </div>
     </div>
@@ -826,7 +982,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);font-s
             <div class="road-title">📅 Q2 2026</div>
             <div class="road-item"><div class="road-dot"></div>MTTR por Grupo Técnico</div>
             <div class="road-item"><div class="road-dot"></div>CSAT mensal obrigatório por grupo</div>
-            <div class="road-item"><div class="road-dot"></div>Taxa de reincidência por serviço</div>
+            <div class="road-item"><div class="road-dot"></div>Taxa de concentração de demanda por serviço</div>
             <div class="road-item"><div class="road-dot"></div>SLA por distrito + grupo combinado</div>
           </div>
           <div class="road-card fut">
@@ -851,7 +1007,7 @@ function gotoTab(id, el) {
   el.classList.add('active');
   const titles = {
     visao:'Visão geral', satisfacao:'Satisfação CSAT', sla:'SLA & Grupo Técnico',
-    backlog:'Backlog & Risco', reincidencia:'Reincidência', distritos:'Por distrito sanitário',
+    backlog:'Backlog & Risco', concentracao:'Concentração de Demanda', distritos:'Por distrito sanitário',
     acoes:'Plano de ação', roadmap:'Roadmap de KPIs'
   };
   document.getElementById('page-title').textContent = titles[id];
@@ -893,13 +1049,13 @@ new Chart(document.getElementById('statusDonut'), {
   type:'doughnut',
   data:{
     labels:['Fechado','Solucionado','Em atendimento','Pendente','Novo'],
-    datasets:[{ data:[1065,228,127,94,16], backgroundColor:[VD,VL,AM,'#ef6c00',RD], borderWidth:0, hoverOffset:4 }]
+    datasets:[{ data:[1065,228,127,94,16], backgroundColor:[VD,VL,'#ef6c00','#e65100',RD], borderWidth:0, hoverOffset:4 }]
   },
   options:{ responsive:false, cutout:'65%', plugins:{ legend:{ display:false }, tooltip:TT } }
 });
 
 // Top serviços — dados reais
-new Chart(document.getElementById('servicosChart'), {
+const servicosChart1 = new Chart(document.getElementById('servicosChart'), {
   type:'bar',
   data:{
     labels:['SEI','Internet (Fibra)','Desktop','Painel PEC E-SUS','CADSUS WEB','Linha Externa','HopChat','PEC Mac','PEC E-SUS AB','Notebook'],
@@ -923,13 +1079,13 @@ new Chart(document.getElementById('infraSistChart'), {
 });
 
 // Backlog grupo (visão geral)
-new Chart(document.getElementById('backlogGrupo'), {
+const backlogGrupoChart = new Chart(document.getElementById('backlogGrupo'), {
   type:'bar',
   data:{
     labels:[
-      'Rede e Conectividade','Laboratório Técnico','Suporte a Dispositivos','Gestão de Ativos',
+      'Rede e Conectividade','Laboratório Técnico','Suporte a Dispositivos','Patrimônio',
       '─── Sistemas ───',
-      'Atend. Remoto Sistemas','Atend. Especialista','Atend. Campo - Acomp.','Atend. Campo - Implant.','Atend. Campo - Trein.'
+      'Atend. Remoto Sistemas','Atend. Especialista','Atend. Campo - Op. Assistida','Atend. Campo - Implant.','Atend. Campo - Trein.'
     ],
     datasets:[{
       data:[109,87,2,2,null,32,2,1,1,1],
@@ -975,12 +1131,12 @@ new Chart(document.getElementById('sistemasCsat'), {
 });
 
 // Backlog grupo (tab backlog)
-new Chart(document.getElementById('backlogGrupo2'), {
+const backlogDonutChart = new Chart(document.getElementById('backlogGrupo2'), {
   type:'doughnut',
   data:{
     labels:[
-      'Rede e Conectividade','Laboratório Técnico','Suporte a Dispositivos','Gestão de Ativos',
-      'Atend. Remoto Sistemas','Atend. Especialista','Atend. Campo - Trein.','Atend. Campo - Implant.','Atend. Campo - Acomp.'
+      'Rede e Conectividade','Laboratório Técnico','Suporte a Dispositivos','Patrimônio',
+      'Atend. Remoto Sistemas','Atend. Especialista','Atend. Campo - Trein.','Atend. Campo - Implant.','Atend. Campo - Op. Assistida'
     ],
     datasets:[{
       data:[109,87,2,2,32,2,1,1,1],
@@ -1001,17 +1157,17 @@ new Chart(document.getElementById('backlogGrupo2'), {
 });
 
 // Backlog grupo tab SLA
-new Chart(document.getElementById('backlogGrupoSLA'), {
+const backlogGrupoSLAChart = new Chart(document.getElementById('backlogGrupoSLA'), {
   type:'bar',
   data:{
-    labels:['Rede e Conectividade','Laboratório Técnico','Suporte a Dispositivos','Gestão de Ativos','Atend. Remoto Sistemas','Atend. Especialista','Atend. Campo - Acomp.','Atend. Campo - Implant.','Atend. Campo - Trein.'],
+    labels:['Rede e Conectividade','Laboratório Técnico','Suporte a Dispositivos','Patrimônio','Atend. Remoto Sistemas','Atend. Especialista','Atend. Campo - Op. Assistida','Atend. Campo - Implant.','Atend. Campo - Trein.'],
     datasets:[{ data:[109,87,32,2,1,1,1,2,2], backgroundColor:[RD,RD,AM,'#90a4ae','#90a4ae','#90a4ae',VD,VD,VD], borderRadius:4 }]
   },
   options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
 });
 
-// Serviços chart2 (reincidência tab)
-new Chart(document.getElementById('servicosChart2'), {
+// Serviços chart2 (concentração de demanda tab)
+const servicosChart2_ = new Chart(document.getElementById('servicosChart2'), {
   type:'bar',
   data:{
     labels:['SEI','Internet (Fibra)','Desktop','Painel PEC E-SUS','CADSUS WEB / SGOP','Linha Externa (Fixo)','HopChat','PEC Mac','PEC E-SUS AB','Notebook'],
@@ -1021,7 +1177,7 @@ new Chart(document.getElementById('servicosChart2'), {
 });
 
 // Distritos
-new Chart(document.getElementById('distritoChart'), {
+const distritoChart2 = new Chart(document.getElementById('distritoChart'), {
   type:'bar',
   data:{
     labels:['DS1\n(440)','DS2\n(164)','DS3\n(180)','DS4\n(128)','DS5\n(282)','DS6\n(79)','DS7\n(129)','DS8\n(100)'],
@@ -1083,6 +1239,111 @@ new Chart(document.getElementById('solCADSUS'), {
   },
   options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:TT }, scales:{ x:{ ticks:{ color:'#8fa3b8', font:{size:10} }, grid:G }, y:{ ticks:{ color:'#3d5166', font:{size:9} }, grid:{ display:false } } } }
 });
+
+// ═══ DADOS MENSAIS ═══
+const DADOS = {"todos":{"total":1536,"enc":1293,"ab":237,"sla":66.2,"np":1017,"fp":519,"req":925,"inc":611,"infra":{"total":672,"sla":51.8,"np":348,"fp":324,"enc":472,"ab":200},"sistemas":{"total":864,"sla":77.4,"np":669,"fp":195,"enc":821,"ab":37},"grupos":{"Laboratório Técnico":{"total":218,"np":71,"fp":147,"sla":32.6,"ab":87},"Patrimônio":{"total":8,"np":4,"fp":4,"sla":50.0,"ab":2},"Rede e Conectividade":{"total":415,"np":246,"fp":169,"sla":59.3,"ab":109},"Suporte a Dispositivos":{"total":31,"np":27,"fp":4,"sla":87.1,"ab":2},"Atend. Remoto Sistemas":{"total":653,"np":465,"fp":188,"sla":71.2,"ab":32},"Atend. Especialista":{"total":4,"np":0,"fp":4,"sla":0.0,"ab":2},"Atend. Campo - Op. Assistida":{"total":32,"np":31,"fp":1,"sla":96.9,"ab":1},"Atend. Campo - Implant.":{"total":150,"np":150,"fp":0,"sla":100.0,"ab":1},"Atend. Campo - Trein.":{"total":25,"np":23,"fp":2,"sla":92.0,"ab":1}},"distritos":{"DS 1":{"total":440,"np":296,"fp":144,"sla":67.3},"DS 2":{"total":164,"np":100,"fp":64,"sla":61.0},"DS 3":{"total":180,"np":137,"fp":43,"sla":76.1},"DS 4":{"total":128,"np":74,"fp":54,"sla":57.8},"DS 5":{"total":282,"np":201,"fp":81,"sla":71.3},"DS 6":{"total":79,"np":44,"fp":35,"sla":55.7},"DS 7":{"total":129,"np":78,"fp":51,"sla":60.5},"DS 8":{"total":100,"np":65,"fp":35,"sla":65.0}},"backlog":{"Rede e Conectividade":109,"Laboratório Técnico":87,"Atend. Remoto Sistemas":32,"Suporte a Dispositivos":2,"Patrimônio":2,"Atend. Especialista":2,"Atend. Campo - Trein.":1,"Atend. Campo - Implant.":1,"Atend. Campo - Op. Assistida":1}},"jan":{"total":412,"enc":376,"ab":34,"sla":63.3,"np":261,"fp":151,"req":251,"inc":161,"infra":{"total":195,"sla":51.3,"np":100,"fp":95,"enc":176,"ab":19},"sistemas":{"total":217,"sla":74.2,"np":161,"fp":56,"enc":200,"ab":15},"grupos":{"Laboratório Técnico":{"total":93,"np":40,"fp":53,"sla":43.0,"ab":10},"Patrimônio":{"total":2,"np":0,"fp":2,"sla":0.0,"ab":0},"Rede e Conectividade":{"total":94,"np":55,"fp":39,"sla":58.5,"ab":9},"Suporte a Dispositivos":{"total":6,"np":5,"fp":1,"sla":83.3,"ab":0},"Atend. Remoto Sistemas":{"total":213,"np":160,"fp":53,"sla":75.1,"ab":13},"Atend. Especialista":{"total":2,"np":0,"fp":2,"sla":0.0,"ab":2},"Atend. Campo - Op. Assistida":{"total":0,"np":0,"fp":0,"sla":0,"ab":0},"Atend. Campo - Implant.":{"total":0,"np":0,"fp":0,"sla":0,"ab":0},"Atend. Campo - Trein.":{"total":2,"np":1,"fp":1,"sla":50.0,"ab":0}},"distritos":{"DS 1":{"total":102,"np":59,"fp":43,"sla":57.8},"DS 2":{"total":50,"np":31,"fp":19,"sla":62.0},"DS 3":{"total":62,"np":52,"fp":10,"sla":83.9},"DS 4":{"total":35,"np":20,"fp":15,"sla":57.1},"DS 5":{"total":64,"np":41,"fp":23,"sla":64.1},"DS 6":{"total":31,"np":15,"fp":16,"sla":48.4},"DS 7":{"total":41,"np":25,"fp":16,"sla":61.0},"DS 8":{"total":18,"np":13,"fp":5,"sla":72.2}},"backlog":{"Atend. Remoto Sistemas":13,"Laboratório Técnico":10,"Rede e Conectividade":9,"Atend. Especialista":2}},"fev":{"total":405,"enc":366,"ab":37,"sla":62.2,"np":252,"fp":153,"req":197,"inc":208,"infra":{"total":229,"sla":55.0,"np":126,"fp":103,"enc":192,"ab":37},"sistemas":{"total":176,"sla":71.6,"np":126,"fp":50,"enc":174,"ab":0},"grupos":{"Laboratório Técnico":{"total":39,"np":10,"fp":29,"sla":25.6,"ab":15},"Patrimônio":{"total":2,"np":2,"fp":0,"sla":100.0,"ab":0},"Rede e Conectividade":{"total":167,"np":96,"fp":71,"sla":57.5,"ab":21},"Suporte a Dispositivos":{"total":21,"np":18,"fp":3,"sla":85.7,"ab":1},"Atend. Remoto Sistemas":{"total":174,"np":126,"fp":48,"sla":72.4,"ab":0},"Atend. Especialista":{"total":1,"np":0,"fp":1,"sla":0.0,"ab":0},"Atend. Campo - Op. Assistida":{"total":0,"np":0,"fp":0,"sla":0,"ab":0},"Atend. Campo - Implant.":{"total":0,"np":0,"fp":0,"sla":0,"ab":0},"Atend. Campo - Trein.":{"total":1,"np":0,"fp":1,"sla":0.0,"ab":0}},"distritos":{"DS 1":{"total":81,"np":49,"fp":32,"sla":60.5},"DS 2":{"total":55,"np":38,"fp":17,"sla":69.1},"DS 3":{"total":50,"np":34,"fp":16,"sla":68.0},"DS 4":{"total":46,"np":29,"fp":17,"sla":63.0},"DS 5":{"total":53,"np":27,"fp":26,"sla":50.9},"DS 6":{"total":22,"np":12,"fp":10,"sla":54.5},"DS 7":{"total":44,"np":31,"fp":13,"sla":70.5},"DS 8":{"total":41,"np":27,"fp":14,"sla":65.9}},"backlog":{"Rede e Conectividade":21,"Laboratório Técnico":15,"Suporte a Dispositivos":1}},"mar":{"total":516,"enc":351,"ab":163,"sla":58.5,"np":302,"fp":214,"req":274,"inc":242,"infra":{"total":248,"sla":49.2,"np":122,"fp":126,"enc":104,"ab":144},"sistemas":{"total":268,"sla":67.2,"np":180,"fp":88,"enc":247,"ab":19},"grupos":{"Laboratório Técnico":{"total":86,"np":21,"fp":65,"sla":24.4,"ab":62},"Patrimônio":{"total":4,"np":2,"fp":2,"sla":50.0,"ab":2},"Rede e Conectividade":{"total":154,"np":95,"fp":59,"sla":61.7,"ab":79},"Suporte a Dispositivos":{"total":4,"np":4,"fp":0,"sla":100.0,"ab":1},"Atend. Remoto Sistemas":{"total":266,"np":179,"fp":87,"sla":67.3,"ab":19},"Atend. Especialista":{"total":1,"np":0,"fp":1,"sla":0.0,"ab":0},"Atend. Campo - Op. Assistida":{"total":0,"np":0,"fp":0,"sla":0,"ab":0},"Atend. Campo - Implant.":{"total":0,"np":0,"fp":0,"sla":0,"ab":0},"Atend. Campo - Trein.":{"total":1,"np":1,"fp":0,"sla":100.0,"ab":0}},"distritos":{"DS 1":{"total":161,"np":92,"fp":69,"sla":57.1},"DS 2":{"total":59,"np":31,"fp":28,"sla":52.5},"DS 3":{"total":62,"np":45,"fp":17,"sla":72.6},"DS 4":{"total":35,"np":13,"fp":22,"sla":37.1},"DS 5":{"total":76,"np":45,"fp":31,"sla":59.2},"DS 6":{"total":26,"np":17,"fp":9,"sla":65.4},"DS 7":{"total":44,"np":22,"fp":22,"sla":50.0},"DS 8":{"total":41,"np":25,"fp":16,"sla":61.0}},"backlog":{"Rede e Conectividade":79,"Laboratório Técnico":62,"Atend. Remoto Sistemas":19,"Patrimônio":2,"Suporte a Dispositivos":1}}};
+
+const MESES_LABEL = {todos:'Jan–Mar 2026 (todos os meses)',jan:'Janeiro 2026',fev:'Fevereiro 2026',mar:'Março 2026'};
+const INFRA_GRUPOS = ['Laboratório Técnico','Patrimônio','Rede e Conectividade','Suporte a Dispositivos'];
+const SIST_GRUPOS  = ['Atend. Remoto Sistemas','Atend. Especialista','Atend. Campo - Op. Assistida','Atend. Campo - Implant.','Atend. Campo - Trein.'];
+
+function slaColor(v){ return v>=85?'var(--verde)':v>=60?'#e65100':'var(--red)'; }
+function fmt(v){ return v.toLocaleString('pt-BR'); }
+
+function filtrarMes(mes) {
+  // Botões
+  document.querySelectorAll('.mes-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('btn-'+mes).classList.add('active');
+  document.getElementById('mes-label').textContent = 'Exibindo: '+MESES_LABEL[mes];
+
+  const d = DADOS[mes];
+
+  // ── Resumo Executivo ──
+  const execVals = document.querySelectorAll('.exec-val');
+  execVals[0].textContent = fmt(d.total);
+  execVals[1].textContent = fmt(d.enc);
+  execVals[2].textContent = fmt(d.ab);
+  const execLabels = document.querySelectorAll('.exec-label');
+  execLabels[1].textContent = 'encerrados · '+Math.round(d.enc/d.total*100)+'%';
+  execLabels[2].textContent = 'em aberto · '+Math.round(d.ab/d.total*100)+'%';
+
+  // ── Card Infraestrutura ──
+  const infraCard = document.querySelector('.estrutura-card.infra');
+  if(infraCard) {
+    infraCard.querySelector('.estrutura-sla').textContent = d.infra.sla+'%';
+    infraCard.querySelector('.estrutura-total').textContent = fmt(d.infra.total)+' chamados · '+fmt(d.infra.fp)+' fora do prazo';
+    infraCard.querySelector('.estrutura-bar-fill').style.width = d.infra.sla+'%';
+    const equipes = infraCard.querySelectorAll('.estrutura-equipe');
+    INFRA_GRUPOS.forEach((g,i) => {
+      const gd = d.grupos[g]||{sla:0};
+      const val = equipes[i]?.querySelector('.estrutura-equipe-val');
+      if(val){ val.textContent = gd.sla+'%'; val.style.color = gd.sla>=85?'#a5d6a7':gd.sla>=60?'#ffcc80':'#ef9a9a'; }
+    });
+  }
+
+  // ── Card Sistemas ──
+  const sistCard = document.querySelector('.estrutura-card.sistemas');
+  if(sistCard) {
+    sistCard.querySelector('.estrutura-sla').textContent = d.sistemas.sla+'%';
+    sistCard.querySelector('.estrutura-total').textContent = fmt(d.sistemas.total)+' chamados · '+fmt(d.sistemas.fp)+' fora do prazo';
+    const bar = sistCard.querySelector('.estrutura-bar-fill');
+    bar.style.width = d.sistemas.sla+'%';
+    bar.style.background = d.sistemas.sla>=85?'linear-gradient(90deg,#81c784,#66bb6a)':'linear-gradient(90deg,#f57c00,#ffa726)';
+    const equipes = sistCard.querySelectorAll('.estrutura-equipe');
+    SIST_GRUPOS.forEach((g,i) => {
+      const gd = d.grupos[g]||{sla:0};
+      const val = equipes[i]?.querySelector('.estrutura-equipe-val');
+      if(val){ val.textContent = gd.sla+'%'; val.style.color = gd.sla>=85?'#a5d6a7':gd.sla>=60?'#ffcc80':'#ef9a9a'; }
+    });
+  }
+
+  // ── KPIs ──
+  document.querySelectorAll('.kpi').forEach(k => {
+    const lbl = k.querySelector('.kpi-label')?.textContent||'';
+    const val = k.querySelector('.kpi-value');
+    const bar = k.querySelector('.kpi-bar-fill');
+    const delta = k.querySelector('.kpi-delta');
+    if(!val) return;
+    if(lbl.includes('SLA GLOBAL')){ val.textContent=d.sla+'%'; val.style.color=slaColor(d.sla); if(bar) bar.style.width=d.sla+'%'; }
+    if(lbl.includes('SLA INFRAESTRUTURA')){ val.textContent=d.infra.sla+'%'; val.style.color=slaColor(d.infra.sla); if(bar) bar.style.width=d.infra.sla+'%'; }
+    if(lbl.includes('SLA SISTEMAS')){ val.textContent=d.sistemas.sla+'%'; val.style.color=slaColor(d.sistemas.sla); if(bar) bar.style.width=d.sistemas.sla+'%'; }
+    if(lbl.includes('EM ABERTO')){ val.textContent=fmt(d.ab); if(delta) delta.textContent=Math.round(d.ab/d.total*100)+'% do total'; }
+    if(lbl.includes('ENCERRADOS INFRA')){ val.textContent=fmt(d.infra.enc); if(delta) delta.textContent=Math.round(d.infra.enc/d.infra.total*100)+'% de '+fmt(d.infra.total); if(bar) bar.style.width=Math.round(d.infra.enc/d.infra.total*100)+'%'; }
+    if(lbl.includes('ABERTOS INFRA')){ val.textContent=fmt(d.infra.ab); if(delta) delta.textContent=Math.round(d.infra.ab/d.infra.total*100)+'% de '+fmt(d.infra.total); if(bar) bar.style.width=Math.round(d.infra.ab/d.infra.total*100)+'%'; }
+    if(lbl.includes('ENCERRADOS SIST')){ val.textContent=fmt(d.sistemas.enc); if(delta) delta.textContent=Math.round(d.sistemas.enc/d.sistemas.total*100)+'% de '+fmt(d.sistemas.total); if(bar) bar.style.width=Math.round(d.sistemas.enc/d.sistemas.total*100)+'%'; }
+    if(lbl.includes('ABERTOS SIST')){ val.textContent=fmt(d.sistemas.ab); }
+    if(lbl.includes('TAXA DE RESOLUÇÃO')){ const pct=Math.round(d.enc/d.total*100); val.textContent=pct+'%'; if(delta) delta.textContent=fmt(d.enc)+' encerrados'; if(bar) bar.style.width=pct+'%'; }
+  });
+
+  // ── Gráfico Backlog por grupo ──
+  const bkGrupos = ['Rede e Conectividade','Laboratório Técnico','Suporte a Dispositivos','Patrimônio',null,'Atend. Remoto Sistemas','Atend. Especialista','Atend. Campo - Op. Assistida','Atend. Campo - Implant.','Atend. Campo - Trein.'];
+  const bkData = bkGrupos.map(g => g ? (d.backlog[g]||0) : null);
+  if(backlogGrupoChart){ backlogGrupoChart.data.datasets[0].data=bkData; backlogGrupoChart.update(); }
+  if(backlogGrupoSLAChart){ backlogGrupoSLAChart.data.datasets[0].data=bkData; backlogGrupoSLAChart.update(); }
+
+  // ── Donut backlog ──
+  const donutGrupos = ['Rede e Conectividade','Laboratório Técnico','Suporte a Dispositivos','Patrimônio','Atend. Remoto Sistemas','Atend. Especialista','Atend. Campo - Op. Assistida','Atend. Campo - Implant.','Atend. Campo - Trein.'];
+  if(backlogDonutChart){ backlogDonutChart.data.datasets[0].data=donutGrupos.map(g=>d.backlog[g]||0); backlogDonutChart.update(); }
+
+  // ── Gráfico distritos ──
+  const dists = ['DS 1','DS 2','DS 3','DS 4','DS 5','DS 6','DS 7','DS 8'];
+  if(distritoChart2){
+    distritoChart2.data.datasets[0].data = dists.map(ds=>d.distritos[ds]?.np||0);
+    distritoChart2.data.datasets[1].data = dists.map(ds=>d.distritos[ds]?.fp||0);
+    distritoChart2.update();
+  }
+
+  // ── Gráficos serviços ──
+  const srvKeys = Object.keys(d.servicos).slice(0,10);
+  const srvVals = Object.values(d.servicos).slice(0,10);
+  [servicosChart1, servicosChart2_].forEach(ch => {
+    if(!ch) return;
+    ch.data.labels = srvKeys;
+    ch.data.datasets[0].data = srvVals;
+    ch.update();
+  });
+}
 </script>
+
 </body>
 </html>
